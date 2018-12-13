@@ -61,7 +61,7 @@ func NewIPAMIPAddressesCreateCreated() *IPAMIPAddressesCreateCreated {
 IPAMIPAddressesCreateCreated ipam Ip addresses create created
 */
 type IPAMIPAddressesCreateCreated struct {
-	Payload *models.WritableIPAddress
+	Payload *models.WritableIPAddressResponse
 }
 
 func (o *IPAMIPAddressesCreateCreated) Error() string {
@@ -70,7 +70,7 @@ func (o *IPAMIPAddressesCreateCreated) Error() string {
 
 func (o *IPAMIPAddressesCreateCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.WritableIPAddress)
+	o.Payload = new(models.WritableIPAddressResponse)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
