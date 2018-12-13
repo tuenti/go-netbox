@@ -8370,7 +8370,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/WritableIPAddressRequest"
+              "$ref": "#/definitions/WritableIPAddress"
             }
           }
         ],
@@ -16618,89 +16618,6 @@
       }
     },
     "WritableIPAddress": {
-      "required": [
-        "address"
-      ],
-      "type": "object",
-      "properties": {
-        "id": {
-          "title": "ID",
-          "type": "integer",
-          "readOnly": true
-        },
-        "address": {
-          "title": "Address",
-          "description": "IPv4 or IPv6 address (with mask)",
-          "type": "string"
-        },
-        "vrf": {
-          "title": "VRF",
-          "type": "integer"
-        },
-        "tenant": {
-          "title": "Tenant",
-          "type": "integer"
-        },
-        "status": {
-          "title": "Status",
-          "description": "Operational status of this prefix",
-          "type": "integer",
-          "enum": [
-            0,
-            1,
-            2,
-            3,
-            5
-          ]
-        },
-        "role": {
-          "title": "Role",
-          "description": "The functional role of this IP",
-          "type": "integer",
-          "enum": [
-            10,
-            20,
-            30,
-            40,
-            41,
-            42,
-            43,
-            44
-          ]
-        },
-        "interface": {
-          "title": "Interface",
-          "type": "integer"
-        },
-        "description": {
-          "title": "Description",
-          "type": "string",
-          "maxLength": 100
-        },
-        "nat_inside": {
-          "title": "NAT (Inside)",
-          "description": "The IP for which this address is the \"outside\" IP",
-          "type": "integer"
-        },
-        "custom_fields": {
-          "title": "Custom fields",
-          "type": "object"
-        },
-        "created": {
-          "title": "Created",
-          "type": "string",
-          "format": "date",
-          "readOnly": true
-        },
-        "last_updated": {
-          "title": "Last updated",
-          "type": "string",
-          "format": "date-time",
-          "readOnly": true
-        }
-      }
-    },
-    "WritableIPAddressRequest": {
       "required": [
         "address"
       ],
