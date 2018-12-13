@@ -8422,7 +8422,7 @@
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/WritableIPAddress"
+              "$ref": "#/definitions/WritableIPAddressResponse"
             }
           }
         },
@@ -8447,7 +8447,7 @@
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/WritableIPAddress"
+              "$ref": "#/definitions/WritableIPAddressResponse"
             }
           }
         },
@@ -16646,7 +16646,6 @@
           "description": "Operational status of this prefix",
           "type": "integer",
           "enum": [
-            0,
             1,
             2,
             3,

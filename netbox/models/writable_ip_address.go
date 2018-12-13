@@ -76,7 +76,7 @@ type WritableIPAddress struct {
 
 	// Status
 	//
-	// The operational status of this IP
+	// Operational status of this prefix
 	// Enum: [1 2 3 5]
 	Status int64 `json:"status,omitempty"`
 
@@ -207,7 +207,7 @@ var writableIpAddressTypeStatusPropEnum []interface{}
 
 func init() {
 	var res []int64
-	if err := json.Unmarshal([]byte(`[0,1,2,3,5]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`[1,2,3,5]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {

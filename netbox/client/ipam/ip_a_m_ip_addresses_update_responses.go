@@ -61,7 +61,7 @@ func NewIPAMIPAddressesUpdateOK() *IPAMIPAddressesUpdateOK {
 IPAMIPAddressesUpdateOK ipam Ip addresses update o k
 */
 type IPAMIPAddressesUpdateOK struct {
-	Payload *models.WritableIPAddress
+	Payload *models.WritableIPAddressResponse
 }
 
 func (o *IPAMIPAddressesUpdateOK) Error() string {
@@ -70,7 +70,7 @@ func (o *IPAMIPAddressesUpdateOK) Error() string {
 
 func (o *IPAMIPAddressesUpdateOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.WritableIPAddress)
+	o.Payload = new(models.WritableIPAddressResponse)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
