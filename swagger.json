@@ -9869,7 +9869,7 @@
           "201": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/WritableVLAN"
+              "$ref": "#/definitions/WritableVLANResponse"
             }
           }
         },
@@ -9913,7 +9913,7 @@
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/WritableVLAN"
+              "$ref": "#/definitions/WritableVLANResponse"
             }
           }
         },
@@ -17312,6 +17312,7 @@
         }
       }
     },
+    
     "WritableVLAN": {
       "required": [
         "vid",
@@ -17355,6 +17356,84 @@
             2,
             3
           ]
+        },
+        "role": {
+          "title": "Role",
+          "type": "integer"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string",
+          "maxLength": 100
+        },
+        "custom_fields": {
+          "title": "Custom fields",
+          "type": "object"
+        },
+        "created": {
+          "title": "Created",
+          "type": "string",
+          "format": "date",
+          "readOnly": true
+        },
+        "last_updated": {
+          "title": "Last updated",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        }
+      }
+    },
+    "WritableVLANResponse": {
+      "required": [
+        "vid",
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "site": {
+          "title": "Site",
+          "type": "integer"
+        },
+        "group": {
+          "title": "Group",
+          "type": "integer"
+        },
+        "vid": {
+          "title": "ID",
+          "type": "integer",
+          "maximum": 4094,
+          "minimum": 1
+        },
+        "name": {
+          "title": "Name",
+          "type": "string",
+          "maxLength": 64
+        },
+        "tenant": {
+          "title": "Tenant",
+          "type": "integer"
+        },
+        "status": {
+          "title": "Status",
+          "required": [
+            "label",
+            "value"
+          ],
+          "type": "object",
+          "properties": {
+            "label": {
+              "type": "string"
+            },
+            "value": {
+              "type": "integer"
+            }
+          }
         },
         "role": {
           "title": "Role",
