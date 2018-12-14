@@ -31,7 +31,7 @@ import (
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/digitalocean/go-netbox/netbox/models"
+	models "github.com/tuenti/go-netbox/netbox/models"
 )
 
 // NewDcimDevicesCreateParams creates a new DcimDevicesCreateParams object

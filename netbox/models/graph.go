@@ -37,6 +37,7 @@ type Graph struct {
 
 	// Link URL
 	// Max Length: 200
+	// Format: uri
 	Link strfmt.URI `json:"link,omitempty"`
 
 	// Name
@@ -64,27 +65,22 @@ func (m *Graph) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateLink(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateName(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateSource(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateType(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateWeight(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -144,7 +140,6 @@ func (m *Graph) validateType(formats strfmt.Registry) error {
 	}
 
 	if m.Type != nil {
-
 		if err := m.Type.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("type")
@@ -184,6 +179,73 @@ func (m *Graph) MarshalBinary() ([]byte, error) {
 // UnmarshalBinary interface implementation
 func (m *Graph) UnmarshalBinary(b []byte) error {
 	var res Graph
+	if err := swag.ReadJSON(b, &res); err != nil {
+		return err
+	}
+	*m = res
+	return nil
+}
+
+// GraphType Type
+// swagger:model GraphType
+type GraphType struct {
+
+	// label
+	// Required: true
+	Label *string `json:"label"`
+
+	// value
+	// Required: true
+	Value *int64 `json:"value"`
+}
+
+// Validate validates this graph type
+func (m *GraphType) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateLabel(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateValue(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *GraphType) validateLabel(formats strfmt.Registry) error {
+
+	if err := validate.Required("type"+"."+"label", "body", m.Label); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *GraphType) validateValue(formats strfmt.Registry) error {
+
+	if err := validate.Required("type"+"."+"value", "body", m.Value); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// MarshalBinary interface implementation
+func (m *GraphType) MarshalBinary() ([]byte, error) {
+	if m == nil {
+		return nil, nil
+	}
+	return swag.WriteJSON(m)
+}
+
+// UnmarshalBinary interface implementation
+func (m *GraphType) UnmarshalBinary(b []byte) error {
+	var res GraphType
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}

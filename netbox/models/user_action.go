@@ -44,6 +44,7 @@ type UserAction struct {
 
 	// Time
 	// Read Only: true
+	// Format: date-time
 	Time strfmt.DateTime `json:"time,omitempty"`
 
 	// user
@@ -56,12 +57,14 @@ func (m *UserAction) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateAction(formats); err != nil {
-		// prop
+		res = append(res, err)
+	}
+
+	if err := m.validateTime(formats); err != nil {
 		res = append(res, err)
 	}
 
 	if err := m.validateUser(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -78,13 +81,25 @@ func (m *UserAction) validateAction(formats strfmt.Registry) error {
 	}
 
 	if m.Action != nil {
-
 		if err := m.Action.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("action")
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+func (m *UserAction) validateTime(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Time) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("time", "body", "date-time", m.Time.String(), formats); err != nil {
+		return err
 	}
 
 	return nil
@@ -97,7 +112,6 @@ func (m *UserAction) validateUser(formats strfmt.Registry) error {
 	}
 
 	if m.User != nil {
-
 		if err := m.User.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("user")
@@ -120,6 +134,73 @@ func (m *UserAction) MarshalBinary() ([]byte, error) {
 // UnmarshalBinary interface implementation
 func (m *UserAction) UnmarshalBinary(b []byte) error {
 	var res UserAction
+	if err := swag.ReadJSON(b, &res); err != nil {
+		return err
+	}
+	*m = res
+	return nil
+}
+
+// UserActionAction Action
+// swagger:model UserActionAction
+type UserActionAction struct {
+
+	// label
+	// Required: true
+	Label *string `json:"label"`
+
+	// value
+	// Required: true
+	Value *int64 `json:"value"`
+}
+
+// Validate validates this user action action
+func (m *UserActionAction) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateLabel(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateValue(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *UserActionAction) validateLabel(formats strfmt.Registry) error {
+
+	if err := validate.Required("action"+"."+"label", "body", m.Label); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *UserActionAction) validateValue(formats strfmt.Registry) error {
+
+	if err := validate.Required("action"+"."+"value", "body", m.Value); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// MarshalBinary interface implementation
+func (m *UserActionAction) MarshalBinary() ([]byte, error) {
+	if m == nil {
+		return nil, nil
+	}
+	return swag.WriteJSON(m)
+}
+
+// UnmarshalBinary interface implementation
+func (m *UserActionAction) UnmarshalBinary(b []byte) error {
+	var res UserActionAction
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}

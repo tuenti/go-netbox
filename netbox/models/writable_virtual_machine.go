@@ -42,6 +42,7 @@ type WritableVirtualMachine struct {
 
 	// Created
 	// Read Only: true
+	// Format: date
 	Created strfmt.Date `json:"created,omitempty"`
 
 	// Custom fields
@@ -58,6 +59,7 @@ type WritableVirtualMachine struct {
 
 	// Last updated
 	// Read Only: true
+	// Format: date-time
 	LastUpdated strfmt.DateTime `json:"last_updated,omitempty"`
 
 	// Memory (MB)
@@ -83,6 +85,7 @@ type WritableVirtualMachine struct {
 	Role int64 `json:"role,omitempty"`
 
 	// Status
+	// Enum: [1 0 3]
 	Status int64 `json:"status,omitempty"`
 
 	// Tenant
@@ -99,32 +102,34 @@ func (m *WritableVirtualMachine) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateCluster(formats); err != nil {
-		// prop
+		res = append(res, err)
+	}
+
+	if err := m.validateCreated(formats); err != nil {
 		res = append(res, err)
 	}
 
 	if err := m.validateDisk(formats); err != nil {
-		// prop
+		res = append(res, err)
+	}
+
+	if err := m.validateLastUpdated(formats); err != nil {
 		res = append(res, err)
 	}
 
 	if err := m.validateMemory(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateName(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateStatus(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateVcpus(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -143,6 +148,19 @@ func (m *WritableVirtualMachine) validateCluster(formats strfmt.Registry) error 
 	return nil
 }
 
+func (m *WritableVirtualMachine) validateCreated(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Created) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("created", "body", "date", m.Created.String(), formats); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (m *WritableVirtualMachine) validateDisk(formats strfmt.Registry) error {
 
 	if swag.IsZero(m.Disk) { // not required
@@ -154,6 +172,19 @@ func (m *WritableVirtualMachine) validateDisk(formats strfmt.Registry) error {
 	}
 
 	if err := validate.MaximumInt("disk", "body", int64(*m.Disk), 2.147483647e+09, false); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *WritableVirtualMachine) validateLastUpdated(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.LastUpdated) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("last_updated", "body", "date-time", m.LastUpdated.String(), formats); err != nil {
 		return err
 	}
 

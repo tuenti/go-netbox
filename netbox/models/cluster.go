@@ -36,6 +36,7 @@ type Cluster struct {
 
 	// Created
 	// Read Only: true
+	// Format: date
 	Created strfmt.Date `json:"created,omitempty"`
 
 	// Custom fields
@@ -51,6 +52,7 @@ type Cluster struct {
 
 	// Last updated
 	// Read Only: true
+	// Format: date-time
 	LastUpdated strfmt.DateTime `json:"last_updated,omitempty"`
 
 	// Name
@@ -71,29 +73,46 @@ type Cluster struct {
 func (m *Cluster) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateCreated(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateGroup(formats); err != nil {
-		// prop
+		res = append(res, err)
+	}
+
+	if err := m.validateLastUpdated(formats); err != nil {
 		res = append(res, err)
 	}
 
 	if err := m.validateName(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateSite(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateType(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *Cluster) validateCreated(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Created) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("created", "body", "date", m.Created.String(), formats); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -104,13 +123,25 @@ func (m *Cluster) validateGroup(formats strfmt.Registry) error {
 	}
 
 	if m.Group != nil {
-
 		if err := m.Group.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("group")
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+func (m *Cluster) validateLastUpdated(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.LastUpdated) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("last_updated", "body", "date-time", m.LastUpdated.String(), formats); err != nil {
+		return err
 	}
 
 	return nil
@@ -136,7 +167,6 @@ func (m *Cluster) validateSite(formats strfmt.Registry) error {
 	}
 
 	if m.Site != nil {
-
 		if err := m.Site.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("site")
@@ -155,7 +185,6 @@ func (m *Cluster) validateType(formats strfmt.Registry) error {
 	}
 
 	if m.Type != nil {
-
 		if err := m.Type.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("type")

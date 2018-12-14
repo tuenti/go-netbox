@@ -74,6 +74,7 @@ type PeerInterface struct {
 
 	// Url
 	// Read Only: true
+	// Format: uri
 	URL strfmt.URI `json:"url,omitempty"`
 }
 
@@ -82,32 +83,30 @@ func (m *PeerInterface) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateDescription(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateDevice(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateFormFactor(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateLag(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateMtu(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateName(formats); err != nil {
-		// prop
+		res = append(res, err)
+	}
+
+	if err := m.validateURL(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -137,7 +136,6 @@ func (m *PeerInterface) validateDevice(formats strfmt.Registry) error {
 	}
 
 	if m.Device != nil {
-
 		if err := m.Device.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("device")
@@ -156,7 +154,6 @@ func (m *PeerInterface) validateFormFactor(formats strfmt.Registry) error {
 	}
 
 	if m.FormFactor != nil {
-
 		if err := m.FormFactor.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("form_factor")
@@ -175,7 +172,6 @@ func (m *PeerInterface) validateLag(formats strfmt.Registry) error {
 	}
 
 	if m.Lag != nil {
-
 		if err := m.Lag.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("lag")
@@ -217,6 +213,19 @@ func (m *PeerInterface) validateName(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *PeerInterface) validateURL(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.URL) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("url", "body", "uri", m.URL.String(), formats); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (m *PeerInterface) MarshalBinary() ([]byte, error) {
 	if m == nil {
@@ -228,6 +237,73 @@ func (m *PeerInterface) MarshalBinary() ([]byte, error) {
 // UnmarshalBinary interface implementation
 func (m *PeerInterface) UnmarshalBinary(b []byte) error {
 	var res PeerInterface
+	if err := swag.ReadJSON(b, &res); err != nil {
+		return err
+	}
+	*m = res
+	return nil
+}
+
+// PeerInterfaceFormFactor Form factor
+// swagger:model PeerInterfaceFormFactor
+type PeerInterfaceFormFactor struct {
+
+	// label
+	// Required: true
+	Label *string `json:"label"`
+
+	// value
+	// Required: true
+	Value *int64 `json:"value"`
+}
+
+// Validate validates this peer interface form factor
+func (m *PeerInterfaceFormFactor) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateLabel(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateValue(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *PeerInterfaceFormFactor) validateLabel(formats strfmt.Registry) error {
+
+	if err := validate.Required("form_factor"+"."+"label", "body", m.Label); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *PeerInterfaceFormFactor) validateValue(formats strfmt.Registry) error {
+
+	if err := validate.Required("form_factor"+"."+"value", "body", m.Value); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// MarshalBinary interface implementation
+func (m *PeerInterfaceFormFactor) MarshalBinary() ([]byte, error) {
+	if m == nil {
+		return nil, nil
+	}
+	return swag.WriteJSON(m)
+}
+
+// UnmarshalBinary interface implementation
+func (m *PeerInterfaceFormFactor) UnmarshalBinary(b []byte) error {
+	var res PeerInterfaceFormFactor
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}

@@ -34,6 +34,7 @@ import (
 type WritableInterfaceConnection struct {
 
 	// Status
+	// Enum: [false true]
 	ConnectionStatus bool `json:"connection_status,omitempty"`
 
 	// ID
@@ -54,17 +55,14 @@ func (m *WritableInterfaceConnection) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateConnectionStatus(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateInterfaceA(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateInterfaceB(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 

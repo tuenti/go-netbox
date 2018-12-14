@@ -60,22 +60,18 @@ func (m *WritableRackReservation) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateDescription(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateRack(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateUnits(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateUser(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -114,7 +110,6 @@ func (m *WritableRackReservation) validateUnits(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.Units); i++ {
-
 		if swag.IsZero(m.Units[i]) { // not required
 			continue
 		}

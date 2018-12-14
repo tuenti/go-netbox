@@ -45,6 +45,7 @@ type WritableInterface struct {
 	Enabled bool `json:"enabled,omitempty"`
 
 	// Form factor
+	// Enum: [0 200 800 1000 1150 1170 1050 1100 1200 1300 1310 1320 1350 1400 1500 1510 1520 1550 1600 2600 2610 2620 2630 2640 3010 3020 3040 3080 3160 4000 4010 4040 4050 5000 5050 5100 5150 5200 32767]
 	FormFactor int64 `json:"form_factor,omitempty"`
 
 	// ID
@@ -63,6 +64,7 @@ type WritableInterface struct {
 	MgmtOnly bool `json:"mgmt_only,omitempty"`
 
 	// Mode
+	// Enum: [100 200 300]
 	Mode int64 `json:"mode,omitempty"`
 
 	// MTU
@@ -88,37 +90,30 @@ func (m *WritableInterface) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateDescription(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateDevice(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateFormFactor(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateMode(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateMtu(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateName(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateTaggedVlans(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 

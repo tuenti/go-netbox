@@ -53,6 +53,7 @@ type Platform struct {
 	NapalmDriver string `json:"napalm_driver,omitempty"`
 
 	// Legacy RPC client
+	// Enum: [juniper-junos cisco-ios opengear]
 	RPCClient string `json:"rpc_client,omitempty"`
 
 	// Slug
@@ -67,27 +68,22 @@ func (m *Platform) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateManufacturer(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateName(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateNapalmDriver(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateRPCClient(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateSlug(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -104,7 +100,6 @@ func (m *Platform) validateManufacturer(formats strfmt.Registry) error {
 	}
 
 	if m.Manufacturer != nil {
-
 		if err := m.Manufacturer.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("manufacturer")
@@ -155,10 +150,13 @@ func init() {
 }
 
 const (
+
 	// PlatformRPCClientJuniperJunos captures enum value "juniper-junos"
 	PlatformRPCClientJuniperJunos string = "juniper-junos"
+
 	// PlatformRPCClientCiscoIos captures enum value "cisco-ios"
 	PlatformRPCClientCiscoIos string = "cisco-ios"
+
 	// PlatformRPCClientOpengear captures enum value "opengear"
 	PlatformRPCClientOpengear string = "opengear"
 )

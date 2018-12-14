@@ -34,6 +34,7 @@ import (
 type PowerPort struct {
 
 	// Connection status
+	// Enum: [false true]
 	ConnectionStatus bool `json:"connection_status,omitempty"`
 
 	// device
@@ -59,22 +60,18 @@ func (m *PowerPort) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateConnectionStatus(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateDevice(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateName(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validatePowerOutlet(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -125,7 +122,6 @@ func (m *PowerPort) validateDevice(formats strfmt.Registry) error {
 	}
 
 	if m.Device != nil {
-
 		if err := m.Device.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("device")
@@ -157,7 +153,6 @@ func (m *PowerPort) validatePowerOutlet(formats strfmt.Registry) error {
 	}
 
 	if m.PowerOutlet != nil {
-
 		if err := m.PowerOutlet.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("power_outlet")

@@ -58,17 +58,14 @@ func (m *RackRole) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateColor(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateName(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateSlug(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 

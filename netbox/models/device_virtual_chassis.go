@@ -41,6 +41,7 @@ type DeviceVirtualChassis struct {
 
 	// Url
 	// Read Only: true
+	// Format: uri
 	URL strfmt.URI `json:"url,omitempty"`
 }
 
@@ -49,7 +50,10 @@ func (m *DeviceVirtualChassis) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateMaster(formats); err != nil {
-		// prop
+		res = append(res, err)
+	}
+
+	if err := m.validateURL(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -66,13 +70,25 @@ func (m *DeviceVirtualChassis) validateMaster(formats strfmt.Registry) error {
 	}
 
 	if m.Master != nil {
-
 		if err := m.Master.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("master")
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+func (m *DeviceVirtualChassis) validateURL(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.URL) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("url", "body", "uri", m.URL.String(), formats); err != nil {
+		return err
 	}
 
 	return nil

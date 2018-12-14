@@ -44,6 +44,7 @@ type WritableDeviceType struct {
 	ID int64 `json:"id,omitempty"`
 
 	// Interface ordering
+	// Enum: [1 2]
 	InterfaceOrdering int64 `json:"interface_ordering,omitempty"`
 
 	// Is a console server
@@ -90,6 +91,7 @@ type WritableDeviceType struct {
 	// Parent/child status
 	//
 	// Parent devices house child devices in device bays. Select "None" if this device type is neither a parent nor a child.
+	// Enum: [<nil> true false]
 	SubdeviceRole *bool `json:"subdevice_role,omitempty"`
 
 	// Height (U)
@@ -103,37 +105,30 @@ func (m *WritableDeviceType) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateInterfaceOrdering(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateManufacturer(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateModel(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validatePartNumber(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateSlug(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateSubdeviceRole(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateUHeight(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 

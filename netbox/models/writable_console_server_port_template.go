@@ -50,12 +50,10 @@ func (m *WritableConsoleServerPortTemplate) Validate(formats strfmt.Registry) er
 	var res []error
 
 	if err := m.validateDeviceType(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateName(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 

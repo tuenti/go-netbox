@@ -33,6 +33,7 @@ type Secret struct {
 
 	// Created
 	// Read Only: true
+	// Format: date
 	Created strfmt.Date `json:"created,omitempty"`
 
 	// device
@@ -49,6 +50,7 @@ type Secret struct {
 
 	// Last updated
 	// Read Only: true
+	// Format: date-time
 	LastUpdated strfmt.DateTime `json:"last_updated,omitempty"`
 
 	// Name
@@ -69,24 +71,42 @@ type Secret struct {
 func (m *Secret) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateCreated(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateDevice(formats); err != nil {
-		// prop
+		res = append(res, err)
+	}
+
+	if err := m.validateLastUpdated(formats); err != nil {
 		res = append(res, err)
 	}
 
 	if err := m.validateName(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateRole(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *Secret) validateCreated(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Created) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("created", "body", "date", m.Created.String(), formats); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -97,13 +117,25 @@ func (m *Secret) validateDevice(formats strfmt.Registry) error {
 	}
 
 	if m.Device != nil {
-
 		if err := m.Device.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("device")
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+func (m *Secret) validateLastUpdated(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.LastUpdated) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("last_updated", "body", "date-time", m.LastUpdated.String(), formats); err != nil {
+		return err
 	}
 
 	return nil
@@ -129,7 +161,6 @@ func (m *Secret) validateRole(formats strfmt.Registry) error {
 	}
 
 	if m.Role != nil {
-
 		if err := m.Role.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("role")

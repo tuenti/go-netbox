@@ -77,32 +77,26 @@ func (m *WritableInventoryItem) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateAssetTag(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateDescription(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateDevice(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateName(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validatePartID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateSerial(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 

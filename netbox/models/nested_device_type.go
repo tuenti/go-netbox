@@ -52,6 +52,7 @@ type NestedDeviceType struct {
 
 	// Url
 	// Read Only: true
+	// Format: uri
 	URL strfmt.URI `json:"url,omitempty"`
 }
 
@@ -60,17 +61,18 @@ func (m *NestedDeviceType) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateManufacturer(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateModel(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateSlug(formats); err != nil {
-		// prop
+		res = append(res, err)
+	}
+
+	if err := m.validateURL(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -87,7 +89,6 @@ func (m *NestedDeviceType) validateManufacturer(formats strfmt.Registry) error {
 	}
 
 	if m.Manufacturer != nil {
-
 		if err := m.Manufacturer.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("manufacturer")
@@ -123,6 +124,19 @@ func (m *NestedDeviceType) validateSlug(formats strfmt.Registry) error {
 	}
 
 	if err := validate.Pattern("slug", "body", string(*m.Slug), `^[-a-zA-Z0-9_]+$`); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *NestedDeviceType) validateURL(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.URL) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("url", "body", "uri", m.URL.String(), formats); err != nil {
 		return err
 	}
 

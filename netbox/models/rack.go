@@ -36,6 +36,7 @@ type Rack struct {
 
 	// Created
 	// Read Only: true
+	// Format: date
 	Created strfmt.Date `json:"created,omitempty"`
 
 	// Custom fields
@@ -65,6 +66,7 @@ type Rack struct {
 
 	// Last updated
 	// Read Only: true
+	// Format: date-time
 	LastUpdated strfmt.DateTime `json:"last_updated,omitempty"`
 
 	// Name
@@ -106,59 +108,70 @@ type Rack struct {
 func (m *Rack) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateCreated(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateFacilityID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateGroup(formats); err != nil {
-		// prop
+		res = append(res, err)
+	}
+
+	if err := m.validateLastUpdated(formats); err != nil {
 		res = append(res, err)
 	}
 
 	if err := m.validateName(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateRole(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateSerial(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateSite(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateTenant(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateType(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateUHeight(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateWidth(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *Rack) validateCreated(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Created) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("created", "body", "date", m.Created.String(), formats); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -182,13 +195,25 @@ func (m *Rack) validateGroup(formats strfmt.Registry) error {
 	}
 
 	if m.Group != nil {
-
 		if err := m.Group.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("group")
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+func (m *Rack) validateLastUpdated(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.LastUpdated) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("last_updated", "body", "date-time", m.LastUpdated.String(), formats); err != nil {
+		return err
 	}
 
 	return nil
@@ -214,7 +239,6 @@ func (m *Rack) validateRole(formats strfmt.Registry) error {
 	}
 
 	if m.Role != nil {
-
 		if err := m.Role.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("role")
@@ -246,7 +270,6 @@ func (m *Rack) validateSite(formats strfmt.Registry) error {
 	}
 
 	if m.Site != nil {
-
 		if err := m.Site.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("site")
@@ -265,7 +288,6 @@ func (m *Rack) validateTenant(formats strfmt.Registry) error {
 	}
 
 	if m.Tenant != nil {
-
 		if err := m.Tenant.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("tenant")
@@ -284,7 +306,6 @@ func (m *Rack) validateType(formats strfmt.Registry) error {
 	}
 
 	if m.Type != nil {
-
 		if err := m.Type.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("type")
@@ -320,7 +341,6 @@ func (m *Rack) validateWidth(formats strfmt.Registry) error {
 	}
 
 	if m.Width != nil {
-
 		if err := m.Width.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("width")
@@ -343,6 +363,140 @@ func (m *Rack) MarshalBinary() ([]byte, error) {
 // UnmarshalBinary interface implementation
 func (m *Rack) UnmarshalBinary(b []byte) error {
 	var res Rack
+	if err := swag.ReadJSON(b, &res); err != nil {
+		return err
+	}
+	*m = res
+	return nil
+}
+
+// RackType Type
+// swagger:model RackType
+type RackType struct {
+
+	// label
+	// Required: true
+	Label *string `json:"label"`
+
+	// value
+	// Required: true
+	Value *int64 `json:"value"`
+}
+
+// Validate validates this rack type
+func (m *RackType) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateLabel(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateValue(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *RackType) validateLabel(formats strfmt.Registry) error {
+
+	if err := validate.Required("type"+"."+"label", "body", m.Label); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *RackType) validateValue(formats strfmt.Registry) error {
+
+	if err := validate.Required("type"+"."+"value", "body", m.Value); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// MarshalBinary interface implementation
+func (m *RackType) MarshalBinary() ([]byte, error) {
+	if m == nil {
+		return nil, nil
+	}
+	return swag.WriteJSON(m)
+}
+
+// UnmarshalBinary interface implementation
+func (m *RackType) UnmarshalBinary(b []byte) error {
+	var res RackType
+	if err := swag.ReadJSON(b, &res); err != nil {
+		return err
+	}
+	*m = res
+	return nil
+}
+
+// RackWidth Width
+// swagger:model RackWidth
+type RackWidth struct {
+
+	// label
+	// Required: true
+	Label *string `json:"label"`
+
+	// value
+	// Required: true
+	Value *int64 `json:"value"`
+}
+
+// Validate validates this rack width
+func (m *RackWidth) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateLabel(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateValue(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *RackWidth) validateLabel(formats strfmt.Registry) error {
+
+	if err := validate.Required("width"+"."+"label", "body", m.Label); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *RackWidth) validateValue(formats strfmt.Registry) error {
+
+	if err := validate.Required("width"+"."+"value", "body", m.Value); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// MarshalBinary interface implementation
+func (m *RackWidth) MarshalBinary() ([]byte, error) {
+	if m == nil {
+		return nil, nil
+	}
+	return swag.WriteJSON(m)
+}
+
+// UnmarshalBinary interface implementation
+func (m *RackWidth) UnmarshalBinary(b []byte) error {
+	var res RackWidth
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}

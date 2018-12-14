@@ -19,10 +19,10 @@ package netbox
 import (
 	"testing"
 
-	"github.com/digitalocean/go-netbox/netbox/client/dcim"
-	"github.com/digitalocean/go-netbox/netbox/models"
 	"github.com/go-openapi/strfmt"
 	"github.com/stretchr/testify/assert"
+	"github.com/tuenti/go-netbox/netbox/client/dcim"
+	"github.com/tuenti/go-netbox/netbox/models"
 )
 
 // These tests assume a netbox running locally, with the netbox test fixtures loaded.
@@ -48,10 +48,10 @@ func TestSubdeviceRole(t *testing.T) {
 	slug := "test-slug"
 	newDeviceType := &models.WritableDeviceType{
 		SubdeviceRole: &role,
-		Comments: "Test device type",
-		Manufacturer: &manufacturerID,
-		Model: &model,
-		Slug: &slug,
+		Comments:      "Test device type",
+		Manufacturer:  &manufacturerID,
+		Model:         &model,
+		Slug:          &slug,
 	}
 	err := newDeviceType.Validate(strfmt.Default)
 	assert.NoError(t, err)

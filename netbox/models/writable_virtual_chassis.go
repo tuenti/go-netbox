@@ -49,12 +49,10 @@ func (m *WritableVirtualChassis) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateDomain(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateMaster(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 

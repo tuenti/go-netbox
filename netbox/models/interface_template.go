@@ -57,17 +57,14 @@ func (m *InterfaceTemplate) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateDeviceType(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateFormFactor(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateName(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -84,7 +81,6 @@ func (m *InterfaceTemplate) validateDeviceType(formats strfmt.Registry) error {
 	}
 
 	if m.DeviceType != nil {
-
 		if err := m.DeviceType.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("device_type")
@@ -103,7 +99,6 @@ func (m *InterfaceTemplate) validateFormFactor(formats strfmt.Registry) error {
 	}
 
 	if m.FormFactor != nil {
-
 		if err := m.FormFactor.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("form_factor")
@@ -139,6 +134,73 @@ func (m *InterfaceTemplate) MarshalBinary() ([]byte, error) {
 // UnmarshalBinary interface implementation
 func (m *InterfaceTemplate) UnmarshalBinary(b []byte) error {
 	var res InterfaceTemplate
+	if err := swag.ReadJSON(b, &res); err != nil {
+		return err
+	}
+	*m = res
+	return nil
+}
+
+// InterfaceTemplateFormFactor Form factor
+// swagger:model InterfaceTemplateFormFactor
+type InterfaceTemplateFormFactor struct {
+
+	// label
+	// Required: true
+	Label *string `json:"label"`
+
+	// value
+	// Required: true
+	Value *int64 `json:"value"`
+}
+
+// Validate validates this interface template form factor
+func (m *InterfaceTemplateFormFactor) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateLabel(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateValue(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *InterfaceTemplateFormFactor) validateLabel(formats strfmt.Registry) error {
+
+	if err := validate.Required("form_factor"+"."+"label", "body", m.Label); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *InterfaceTemplateFormFactor) validateValue(formats strfmt.Registry) error {
+
+	if err := validate.Required("form_factor"+"."+"value", "body", m.Value); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// MarshalBinary interface implementation
+func (m *InterfaceTemplateFormFactor) MarshalBinary() ([]byte, error) {
+	if m == nil {
+		return nil, nil
+	}
+	return swag.WriteJSON(m)
+}
+
+// UnmarshalBinary interface implementation
+func (m *InterfaceTemplateFormFactor) UnmarshalBinary(b []byte) error {
+	var res InterfaceTemplateFormFactor
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}

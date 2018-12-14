@@ -43,6 +43,7 @@ type WritableSite struct {
 
 	// Contact E-mail
 	// Max Length: 254
+	// Format: email
 	ContactEmail strfmt.Email `json:"contact_email,omitempty"`
 
 	// Contact name
@@ -55,6 +56,7 @@ type WritableSite struct {
 
 	// Created
 	// Read Only: true
+	// Format: date
 	Created strfmt.Date `json:"created,omitempty"`
 
 	// Custom fields
@@ -74,6 +76,7 @@ type WritableSite struct {
 
 	// Last updated
 	// Read Only: true
+	// Format: date-time
 	LastUpdated strfmt.DateTime `json:"last_updated,omitempty"`
 
 	// Name
@@ -99,6 +102,7 @@ type WritableSite struct {
 	Slug *string `json:"slug"`
 
 	// Status
+	// Enum: [1 2 4]
 	Status int64 `json:"status,omitempty"`
 
 	// Tenant
@@ -113,57 +117,54 @@ func (m *WritableSite) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateAsn(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateContactEmail(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateContactName(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateContactPhone(formats); err != nil {
-		// prop
+		res = append(res, err)
+	}
+
+	if err := m.validateCreated(formats); err != nil {
 		res = append(res, err)
 	}
 
 	if err := m.validateDescription(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateFacility(formats); err != nil {
-		// prop
+		res = append(res, err)
+	}
+
+	if err := m.validateLastUpdated(formats); err != nil {
 		res = append(res, err)
 	}
 
 	if err := m.validateName(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validatePhysicalAddress(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateShippingAddress(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateSlug(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateStatus(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -233,6 +234,19 @@ func (m *WritableSite) validateContactPhone(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *WritableSite) validateCreated(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Created) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("created", "body", "date", m.Created.String(), formats); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (m *WritableSite) validateDescription(formats strfmt.Registry) error {
 
 	if swag.IsZero(m.Description) { // not required
@@ -253,6 +267,19 @@ func (m *WritableSite) validateFacility(formats strfmt.Registry) error {
 	}
 
 	if err := validate.MaxLength("facility", "body", string(m.Facility), 50); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *WritableSite) validateLastUpdated(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.LastUpdated) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("last_updated", "body", "date-time", m.LastUpdated.String(), formats); err != nil {
 		return err
 	}
 

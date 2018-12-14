@@ -38,6 +38,7 @@ type WritableRack struct {
 
 	// Created
 	// Read Only: true
+	// Format: date
 	Created strfmt.Date `json:"created,omitempty"`
 
 	// Custom fields
@@ -61,6 +62,7 @@ type WritableRack struct {
 
 	// Last updated
 	// Read Only: true
+	// Format: date-time
 	LastUpdated strfmt.DateTime `json:"last_updated,omitempty"`
 
 	// Name
@@ -83,6 +85,7 @@ type WritableRack struct {
 	Tenant int64 `json:"tenant,omitempty"`
 
 	// Type
+	// Enum: [100 200 300 1000 1100]
 	Type int64 `json:"type,omitempty"`
 
 	// Height (U)
@@ -93,6 +96,7 @@ type WritableRack struct {
 	// Width
 	//
 	// Rail-to-rail width
+	// Enum: [19 23]
 	Width int64 `json:"width,omitempty"`
 }
 
@@ -100,44 +104,58 @@ type WritableRack struct {
 func (m *WritableRack) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateCreated(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateFacilityID(formats); err != nil {
-		// prop
+		res = append(res, err)
+	}
+
+	if err := m.validateLastUpdated(formats); err != nil {
 		res = append(res, err)
 	}
 
 	if err := m.validateName(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateSerial(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateSite(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateType(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateUHeight(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateWidth(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *WritableRack) validateCreated(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Created) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("created", "body", "date", m.Created.String(), formats); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -148,6 +166,19 @@ func (m *WritableRack) validateFacilityID(formats strfmt.Registry) error {
 	}
 
 	if err := validate.MaxLength("facility_id", "body", string(m.FacilityID), 50); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *WritableRack) validateLastUpdated(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.LastUpdated) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("last_updated", "body", "date-time", m.LastUpdated.String(), formats); err != nil {
 		return err
 	}
 

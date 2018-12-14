@@ -39,6 +39,7 @@ type WritableGraph struct {
 
 	// Link URL
 	// Max Length: 200
+	// Format: uri
 	Link strfmt.URI `json:"link,omitempty"`
 
 	// Name
@@ -53,6 +54,7 @@ type WritableGraph struct {
 
 	// Type
 	// Required: true
+	// Enum: [100 200 300]
 	Type *int64 `json:"type"`
 
 	// Weight
@@ -66,27 +68,22 @@ func (m *WritableGraph) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateLink(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateName(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateSource(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateType(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateWeight(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 

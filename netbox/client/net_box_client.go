@@ -25,13 +25,13 @@ import (
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/digitalocean/go-netbox/netbox/client/circuits"
-	"github.com/digitalocean/go-netbox/netbox/client/dcim"
-	"github.com/digitalocean/go-netbox/netbox/client/extras"
-	"github.com/digitalocean/go-netbox/netbox/client/ipam"
-	"github.com/digitalocean/go-netbox/netbox/client/secrets"
-	"github.com/digitalocean/go-netbox/netbox/client/tenancy"
-	"github.com/digitalocean/go-netbox/netbox/client/virtualization"
+	"github.com/tuenti/go-netbox/netbox/client/circuits"
+	"github.com/tuenti/go-netbox/netbox/client/dcim"
+	"github.com/tuenti/go-netbox/netbox/client/extras"
+	"github.com/tuenti/go-netbox/netbox/client/ipam"
+	"github.com/tuenti/go-netbox/netbox/client/secrets"
+	"github.com/tuenti/go-netbox/netbox/client/tenancy"
+	"github.com/tuenti/go-netbox/netbox/client/virtualization"
 )
 
 // Default net box HTTP client.
@@ -58,9 +58,6 @@ func NewHTTPClient(formats strfmt.Registry) *NetBox {
 // using a customizable transport config.
 func NewHTTPClientWithConfig(formats strfmt.Registry, cfg *TransportConfig) *NetBox {
 	// ensure nullable parameters have default
-	if formats == nil {
-		formats = strfmt.Default
-	}
 	if cfg == nil {
 		cfg = DefaultTransportConfig()
 	}
@@ -72,6 +69,11 @@ func NewHTTPClientWithConfig(formats strfmt.Registry, cfg *TransportConfig) *Net
 
 // New creates a new net box client
 func New(transport runtime.ClientTransport, formats strfmt.Registry) *NetBox {
+	// ensure nullable parameters have default
+	if formats == nil {
+		formats = strfmt.Default
+	}
+
 	cli := new(NetBox)
 	cli.Transport = transport
 

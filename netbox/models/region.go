@@ -56,17 +56,14 @@ func (m *Region) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateName(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateParent(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateSlug(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -96,7 +93,6 @@ func (m *Region) validateParent(formats strfmt.Registry) error {
 	}
 
 	if m.Parent != nil {
-
 		if err := m.Parent.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("parent")
