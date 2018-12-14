@@ -115,7 +115,7 @@ type IPAMVlansListParams struct {
 	/*TenantID*/
 	TenantID *string
 	/*Vid*/
-	Vid *float64
+	Vid *int64
 
 	timeout    time.Duration
 	Context    context.Context
@@ -310,13 +310,13 @@ func (o *IPAMVlansListParams) SetTenantID(tenantID *string) {
 }
 
 // WithVid adds the vid to the ipam vlans list params
-func (o *IPAMVlansListParams) WithVid(vid *float64) *IPAMVlansListParams {
+func (o *IPAMVlansListParams) WithVid(vid *int64) *IPAMVlansListParams {
 	o.SetVid(vid)
 	return o
 }
 
 // SetVid adds the vid to the ipam vlans list params
-func (o *IPAMVlansListParams) SetVid(vid *float64) {
+func (o *IPAMVlansListParams) SetVid(vid *int64) {
 	o.Vid = vid
 }
 
@@ -555,11 +555,11 @@ func (o *IPAMVlansListParams) WriteToRequest(r runtime.ClientRequest, reg strfmt
 	if o.Vid != nil {
 
 		// query param vid
-		var qrVid float64
+		var qrVid int64
 		if o.Vid != nil {
 			qrVid = *o.Vid
 		}
-		qVid := swag.FormatFloat64(qrVid)
+		qVid := swag.FormatInt64(qrVid)
 		if qVid != "" {
 			if err := r.SetQueryParam("vid", qVid); err != nil {
 				return err
