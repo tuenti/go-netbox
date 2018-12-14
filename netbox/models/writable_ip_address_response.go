@@ -29,9 +29,9 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// WritableIPAddress writable IP address
-// swagger:model WritableIPAddress
-type WritableIPAddress struct {
+// WritableIPAddressResponse writable IP address response
+// swagger:model WritableIPAddressResponse
+type WritableIPAddressResponse struct {
 
 	// Address
 	//
@@ -74,11 +74,8 @@ type WritableIPAddress struct {
 	// Enum: [10 20 30 40 41 42 43 44]
 	Role int64 `json:"role,omitempty"`
 
-	// Status
-	//
-	// Operational status of this prefix
-	// Enum: [1 2 3 5]
-	Status int64 `json:"status,omitempty"`
+	// status
+	Status *WritableIPAddressResponseStatus `json:"status,omitempty"`
 
 	// Tenant
 	Tenant int64 `json:"tenant,omitempty"`
@@ -87,8 +84,8 @@ type WritableIPAddress struct {
 	Vrf int64 `json:"vrf,omitempty"`
 }
 
-// Validate validates this writable IP address
-func (m *WritableIPAddress) Validate(formats strfmt.Registry) error {
+// Validate validates this writable IP address response
+func (m *WritableIPAddressResponse) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateAddress(formats); err != nil {
@@ -121,7 +118,7 @@ func (m *WritableIPAddress) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *WritableIPAddress) validateAddress(formats strfmt.Registry) error {
+func (m *WritableIPAddressResponse) validateAddress(formats strfmt.Registry) error {
 
 	if err := validate.Required("address", "body", m.Address); err != nil {
 		return err
@@ -130,7 +127,7 @@ func (m *WritableIPAddress) validateAddress(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *WritableIPAddress) validateCreated(formats strfmt.Registry) error {
+func (m *WritableIPAddressResponse) validateCreated(formats strfmt.Registry) error {
 
 	if swag.IsZero(m.Created) { // not required
 		return nil
@@ -143,7 +140,7 @@ func (m *WritableIPAddress) validateCreated(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *WritableIPAddress) validateDescription(formats strfmt.Registry) error {
+func (m *WritableIPAddressResponse) validateDescription(formats strfmt.Registry) error {
 
 	if swag.IsZero(m.Description) { // not required
 		return nil
@@ -156,7 +153,7 @@ func (m *WritableIPAddress) validateDescription(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *WritableIPAddress) validateLastUpdated(formats strfmt.Registry) error {
+func (m *WritableIPAddressResponse) validateLastUpdated(formats strfmt.Registry) error {
 
 	if swag.IsZero(m.LastUpdated) { // not required
 		return nil
@@ -169,7 +166,7 @@ func (m *WritableIPAddress) validateLastUpdated(formats strfmt.Registry) error {
 	return nil
 }
 
-var writableIpAddressTypeRolePropEnum []interface{}
+var writableIpAddressResponseTypeRolePropEnum []interface{}
 
 func init() {
 	var res []int64
@@ -177,19 +174,19 @@ func init() {
 		panic(err)
 	}
 	for _, v := range res {
-		writableIpAddressTypeRolePropEnum = append(writableIpAddressTypeRolePropEnum, v)
+		writableIpAddressResponseTypeRolePropEnum = append(writableIpAddressResponseTypeRolePropEnum, v)
 	}
 }
 
 // prop value enum
-func (m *WritableIPAddress) validateRoleEnum(path, location string, value int64) error {
-	if err := validate.Enum(path, location, value, writableIpAddressTypeRolePropEnum); err != nil {
+func (m *WritableIPAddressResponse) validateRoleEnum(path, location string, value int64) error {
+	if err := validate.Enum(path, location, value, writableIpAddressResponseTypeRolePropEnum); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (m *WritableIPAddress) validateRole(formats strfmt.Registry) error {
+func (m *WritableIPAddressResponse) validateRole(formats strfmt.Registry) error {
 
 	if swag.IsZero(m.Role) { // not required
 		return nil
@@ -203,42 +200,26 @@ func (m *WritableIPAddress) validateRole(formats strfmt.Registry) error {
 	return nil
 }
 
-var writableIpAddressTypeStatusPropEnum []interface{}
-
-func init() {
-	var res []int64
-	if err := json.Unmarshal([]byte(`[1,2,3,5]`), &res); err != nil {
-		panic(err)
-	}
-	for _, v := range res {
-		writableIpAddressTypeStatusPropEnum = append(writableIpAddressTypeStatusPropEnum, v)
-	}
-}
-
-// prop value enum
-func (m *WritableIPAddress) validateStatusEnum(path, location string, value int64) error {
-	if err := validate.Enum(path, location, value, writableIpAddressTypeStatusPropEnum); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (m *WritableIPAddress) validateStatus(formats strfmt.Registry) error {
+func (m *WritableIPAddressResponse) validateStatus(formats strfmt.Registry) error {
 
 	if swag.IsZero(m.Status) { // not required
 		return nil
 	}
 
-	// value enum
-	if err := m.validateStatusEnum("status", "body", m.Status); err != nil {
-		return err
+	if m.Status != nil {
+		if err := m.Status.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("status")
+			}
+			return err
+		}
 	}
 
 	return nil
 }
 
 // MarshalBinary interface implementation
-func (m *WritableIPAddress) MarshalBinary() ([]byte, error) {
+func (m *WritableIPAddressResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -246,8 +227,75 @@ func (m *WritableIPAddress) MarshalBinary() ([]byte, error) {
 }
 
 // UnmarshalBinary interface implementation
-func (m *WritableIPAddress) UnmarshalBinary(b []byte) error {
-	var res WritableIPAddress
+func (m *WritableIPAddressResponse) UnmarshalBinary(b []byte) error {
+	var res WritableIPAddressResponse
+	if err := swag.ReadJSON(b, &res); err != nil {
+		return err
+	}
+	*m = res
+	return nil
+}
+
+// WritableIPAddressResponseStatus Status
+// swagger:model WritableIPAddressResponseStatus
+type WritableIPAddressResponseStatus struct {
+
+	// label
+	// Required: true
+	Label *string `json:"label"`
+
+	// value
+	// Required: true
+	Value *int64 `json:"value"`
+}
+
+// Validate validates this writable IP address response status
+func (m *WritableIPAddressResponseStatus) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateLabel(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateValue(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *WritableIPAddressResponseStatus) validateLabel(formats strfmt.Registry) error {
+
+	if err := validate.Required("status"+"."+"label", "body", m.Label); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *WritableIPAddressResponseStatus) validateValue(formats strfmt.Registry) error {
+
+	if err := validate.Required("status"+"."+"value", "body", m.Value); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// MarshalBinary interface implementation
+func (m *WritableIPAddressResponseStatus) MarshalBinary() ([]byte, error) {
+	if m == nil {
+		return nil, nil
+	}
+	return swag.WriteJSON(m)
+}
+
+// UnmarshalBinary interface implementation
+func (m *WritableIPAddressResponseStatus) UnmarshalBinary(b []byte) error {
+	var res WritableIPAddressResponseStatus
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}
