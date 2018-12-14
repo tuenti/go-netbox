@@ -34,6 +34,7 @@ import (
 type WritablePowerPort struct {
 
 	// Connection status
+	// Enum: [false true]
 	ConnectionStatus bool `json:"connection_status,omitempty"`
 
 	// Device
@@ -58,17 +59,14 @@ func (m *WritablePowerPort) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateConnectionStatus(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateDevice(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateName(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 

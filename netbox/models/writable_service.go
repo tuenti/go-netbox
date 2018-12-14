@@ -35,6 +35,7 @@ type WritableService struct {
 
 	// Created
 	// Read Only: true
+	// Format: date
 	Created strfmt.Date `json:"created,omitempty"`
 
 	// Description
@@ -54,6 +55,7 @@ type WritableService struct {
 
 	// Last updated
 	// Read Only: true
+	// Format: date-time
 	LastUpdated strfmt.DateTime `json:"last_updated,omitempty"`
 
 	// Name
@@ -69,6 +71,7 @@ type WritableService struct {
 
 	// Protocol
 	// Required: true
+	// Enum: [6 17]
 	Protocol *int64 `json:"protocol"`
 
 	// Virtual machine
@@ -79,34 +82,50 @@ type WritableService struct {
 func (m *WritableService) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateCreated(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateDescription(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateIpaddresses(formats); err != nil {
-		// prop
+		res = append(res, err)
+	}
+
+	if err := m.validateLastUpdated(formats); err != nil {
 		res = append(res, err)
 	}
 
 	if err := m.validateName(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validatePort(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateProtocol(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *WritableService) validateCreated(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Created) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("created", "body", "date", m.Created.String(), formats); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -130,6 +149,19 @@ func (m *WritableService) validateIpaddresses(formats strfmt.Registry) error {
 	}
 
 	if err := validate.UniqueItems("ipaddresses", "body", m.Ipaddresses); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *WritableService) validateLastUpdated(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.LastUpdated) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("last_updated", "body", "date-time", m.LastUpdated.String(), formats); err != nil {
 		return err
 	}
 

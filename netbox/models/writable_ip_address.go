@@ -41,6 +41,7 @@ type WritableIPAddress struct {
 
 	// Created
 	// Read Only: true
+	// Format: date
 	Created strfmt.Date `json:"created,omitempty"`
 
 	// Custom fields
@@ -59,6 +60,7 @@ type WritableIPAddress struct {
 
 	// Last updated
 	// Read Only: true
+	// Format: date-time
 	LastUpdated strfmt.DateTime `json:"last_updated,omitempty"`
 
 	// NAT (Inside)
@@ -69,11 +71,13 @@ type WritableIPAddress struct {
 	// Role
 	//
 	// The functional role of this IP
+	// Enum: [10 20 30 40 41 42 43 44]
 	Role int64 `json:"role,omitempty"`
 
 	// Status
 	//
 	// The operational status of this IP
+	// Enum: [1 2 3 5]
 	Status int64 `json:"status,omitempty"`
 
 	// Tenant
@@ -88,22 +92,26 @@ func (m *WritableIPAddress) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateAddress(formats); err != nil {
-		// prop
+		res = append(res, err)
+	}
+
+	if err := m.validateCreated(formats); err != nil {
 		res = append(res, err)
 	}
 
 	if err := m.validateDescription(formats); err != nil {
-		// prop
+		res = append(res, err)
+	}
+
+	if err := m.validateLastUpdated(formats); err != nil {
 		res = append(res, err)
 	}
 
 	if err := m.validateRole(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateStatus(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -122,6 +130,19 @@ func (m *WritableIPAddress) validateAddress(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *WritableIPAddress) validateCreated(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Created) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("created", "body", "date", m.Created.String(), formats); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (m *WritableIPAddress) validateDescription(formats strfmt.Registry) error {
 
 	if swag.IsZero(m.Description) { // not required
@@ -129,6 +150,19 @@ func (m *WritableIPAddress) validateDescription(formats strfmt.Registry) error {
 	}
 
 	if err := validate.MaxLength("description", "body", string(m.Description), 100); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *WritableIPAddress) validateLastUpdated(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.LastUpdated) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("last_updated", "body", "date-time", m.LastUpdated.String(), formats); err != nil {
 		return err
 	}
 

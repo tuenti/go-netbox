@@ -47,6 +47,7 @@ type WritableDevice struct {
 
 	// Created
 	// Read Only: true
+	// Format: date
 	Created strfmt.Date `json:"created,omitempty"`
 
 	// Custom fields
@@ -61,6 +62,7 @@ type WritableDevice struct {
 	DeviceType *int64 `json:"device_type"`
 
 	// Rack face
+	// Enum: [0 1]
 	Face int64 `json:"face,omitempty"`
 
 	// ID
@@ -69,6 +71,7 @@ type WritableDevice struct {
 
 	// Last updated
 	// Read Only: true
+	// Format: date-time
 	LastUpdated strfmt.DateTime `json:"last_updated,omitempty"`
 
 	// Name
@@ -103,6 +106,7 @@ type WritableDevice struct {
 	Site *int64 `json:"site"`
 
 	// Status
+	// Enum: [1 0 2 3 4 5]
 	Status int64 `json:"status,omitempty"`
 
 	// Tenant
@@ -127,57 +131,54 @@ func (m *WritableDevice) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateAssetTag(formats); err != nil {
-		// prop
+		res = append(res, err)
+	}
+
+	if err := m.validateCreated(formats); err != nil {
 		res = append(res, err)
 	}
 
 	if err := m.validateDeviceRole(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateDeviceType(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateFace(formats); err != nil {
-		// prop
+		res = append(res, err)
+	}
+
+	if err := m.validateLastUpdated(formats); err != nil {
 		res = append(res, err)
 	}
 
 	if err := m.validateName(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validatePosition(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateSerial(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateSite(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateStatus(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateVcPosition(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateVcPriority(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -194,6 +195,19 @@ func (m *WritableDevice) validateAssetTag(formats strfmt.Registry) error {
 	}
 
 	if err := validate.MaxLength("asset_tag", "body", string(m.AssetTag), 50); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *WritableDevice) validateCreated(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Created) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("created", "body", "date", m.Created.String(), formats); err != nil {
 		return err
 	}
 
@@ -246,6 +260,19 @@ func (m *WritableDevice) validateFace(formats strfmt.Registry) error {
 
 	// value enum
 	if err := m.validateFaceEnum("face", "body", m.Face); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *WritableDevice) validateLastUpdated(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.LastUpdated) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("last_updated", "body", "date-time", m.LastUpdated.String(), formats); err != nil {
 		return err
 	}
 

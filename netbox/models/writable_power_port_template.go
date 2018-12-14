@@ -50,12 +50,10 @@ func (m *WritablePowerPortTemplate) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateDeviceType(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateName(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 

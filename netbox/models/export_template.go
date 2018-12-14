@@ -66,32 +66,26 @@ func (m *ExportTemplate) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateContentType(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateDescription(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateFileExtension(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateMimeType(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateName(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateTemplateCode(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 

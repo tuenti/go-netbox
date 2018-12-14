@@ -60,6 +60,7 @@ type WritableCircuitTermination struct {
 
 	// Termination
 	// Required: true
+	// Enum: [A Z]
 	TermSide *string `json:"term_side"`
 
 	// Upstream speed (Kbps)
@@ -79,37 +80,30 @@ func (m *WritableCircuitTermination) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateCircuit(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validatePortSpeed(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validatePpInfo(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateSite(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateTermSide(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateUpstreamSpeed(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateXconnectID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -180,8 +174,10 @@ func init() {
 }
 
 const (
+
 	// WritableCircuitTerminationTermSideA captures enum value "A"
 	WritableCircuitTerminationTermSideA string = "A"
+
 	// WritableCircuitTerminationTermSideZ captures enum value "Z"
 	WritableCircuitTerminationTermSideZ string = "Z"
 )

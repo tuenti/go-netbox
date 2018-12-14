@@ -42,6 +42,7 @@ type WritableImageAttachment struct {
 	// Image
 	// Required: true
 	// Read Only: true
+	// Format: uri
 	Image strfmt.URI `json:"image"`
 
 	// Name
@@ -60,22 +61,18 @@ func (m *WritableImageAttachment) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateContentType(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateImage(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateName(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateObjectID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 

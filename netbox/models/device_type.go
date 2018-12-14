@@ -105,37 +105,30 @@ func (m *DeviceType) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateInterfaceOrdering(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateManufacturer(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateModel(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validatePartNumber(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateSlug(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateSubdeviceRole(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateUHeight(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -152,7 +145,6 @@ func (m *DeviceType) validateInterfaceOrdering(formats strfmt.Registry) error {
 	}
 
 	if m.InterfaceOrdering != nil {
-
 		if err := m.InterfaceOrdering.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("interface_ordering")
@@ -171,7 +163,6 @@ func (m *DeviceType) validateManufacturer(formats strfmt.Registry) error {
 	}
 
 	if m.Manufacturer != nil {
-
 		if err := m.Manufacturer.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("manufacturer")
@@ -233,7 +224,6 @@ func (m *DeviceType) validateSubdeviceRole(formats strfmt.Registry) error {
 	}
 
 	if m.SubdeviceRole != nil {
-
 		if err := m.SubdeviceRole.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("subdevice_role")
@@ -273,6 +263,140 @@ func (m *DeviceType) MarshalBinary() ([]byte, error) {
 // UnmarshalBinary interface implementation
 func (m *DeviceType) UnmarshalBinary(b []byte) error {
 	var res DeviceType
+	if err := swag.ReadJSON(b, &res); err != nil {
+		return err
+	}
+	*m = res
+	return nil
+}
+
+// DeviceTypeInterfaceOrdering Interface ordering
+// swagger:model DeviceTypeInterfaceOrdering
+type DeviceTypeInterfaceOrdering struct {
+
+	// label
+	// Required: true
+	Label *string `json:"label"`
+
+	// value
+	// Required: true
+	Value *int64 `json:"value"`
+}
+
+// Validate validates this device type interface ordering
+func (m *DeviceTypeInterfaceOrdering) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateLabel(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateValue(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *DeviceTypeInterfaceOrdering) validateLabel(formats strfmt.Registry) error {
+
+	if err := validate.Required("interface_ordering"+"."+"label", "body", m.Label); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *DeviceTypeInterfaceOrdering) validateValue(formats strfmt.Registry) error {
+
+	if err := validate.Required("interface_ordering"+"."+"value", "body", m.Value); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// MarshalBinary interface implementation
+func (m *DeviceTypeInterfaceOrdering) MarshalBinary() ([]byte, error) {
+	if m == nil {
+		return nil, nil
+	}
+	return swag.WriteJSON(m)
+}
+
+// UnmarshalBinary interface implementation
+func (m *DeviceTypeInterfaceOrdering) UnmarshalBinary(b []byte) error {
+	var res DeviceTypeInterfaceOrdering
+	if err := swag.ReadJSON(b, &res); err != nil {
+		return err
+	}
+	*m = res
+	return nil
+}
+
+// DeviceTypeSubdeviceRole Subdevice role
+// swagger:model DeviceTypeSubdeviceRole
+type DeviceTypeSubdeviceRole struct {
+
+	// label
+	// Required: true
+	Label *string `json:"label"`
+
+	// value
+	// Required: true
+	Value *bool `json:"value"`
+}
+
+// Validate validates this device type subdevice role
+func (m *DeviceTypeSubdeviceRole) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateLabel(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateValue(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *DeviceTypeSubdeviceRole) validateLabel(formats strfmt.Registry) error {
+
+	if err := validate.Required("subdevice_role"+"."+"label", "body", m.Label); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *DeviceTypeSubdeviceRole) validateValue(formats strfmt.Registry) error {
+
+	if err := validate.Required("subdevice_role"+"."+"value", "body", m.Value); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// MarshalBinary interface implementation
+func (m *DeviceTypeSubdeviceRole) MarshalBinary() ([]byte, error) {
+	if m == nil {
+		return nil, nil
+	}
+	return swag.WriteJSON(m)
+}
+
+// UnmarshalBinary interface implementation
+func (m *DeviceTypeSubdeviceRole) UnmarshalBinary(b []byte) error {
+	var res DeviceTypeSubdeviceRole
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}

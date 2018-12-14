@@ -54,17 +54,14 @@ func (m *DeviceBay) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateDevice(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateInstalledDevice(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateName(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -81,7 +78,6 @@ func (m *DeviceBay) validateDevice(formats strfmt.Registry) error {
 	}
 
 	if m.Device != nil {
-
 		if err := m.Device.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("device")
@@ -100,7 +96,6 @@ func (m *DeviceBay) validateInstalledDevice(formats strfmt.Registry) error {
 	}
 
 	if m.InstalledDevice != nil {
-
 		if err := m.InstalledDevice.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("installed_device")

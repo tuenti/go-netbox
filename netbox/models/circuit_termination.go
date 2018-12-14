@@ -61,6 +61,7 @@ type CircuitTermination struct {
 
 	// Termination
 	// Required: true
+	// Enum: [A Z]
 	TermSide *string `json:"term_side"`
 
 	// Upstream speed (Kbps)
@@ -80,42 +81,34 @@ func (m *CircuitTermination) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateCircuit(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateInterface(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validatePortSpeed(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validatePpInfo(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateSite(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateTermSide(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateUpstreamSpeed(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateXconnectID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -132,7 +125,6 @@ func (m *CircuitTermination) validateCircuit(formats strfmt.Registry) error {
 	}
 
 	if m.Circuit != nil {
-
 		if err := m.Circuit.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("circuit")
@@ -151,7 +143,6 @@ func (m *CircuitTermination) validateInterface(formats strfmt.Registry) error {
 	}
 
 	if m.Interface != nil {
-
 		if err := m.Interface.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("interface")
@@ -200,7 +191,6 @@ func (m *CircuitTermination) validateSite(formats strfmt.Registry) error {
 	}
 
 	if m.Site != nil {
-
 		if err := m.Site.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("site")
@@ -225,8 +215,10 @@ func init() {
 }
 
 const (
+
 	// CircuitTerminationTermSideA captures enum value "A"
 	CircuitTerminationTermSideA string = "A"
+
 	// CircuitTerminationTermSideZ captures enum value "Z"
 	CircuitTerminationTermSideZ string = "Z"
 )

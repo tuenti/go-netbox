@@ -54,6 +54,7 @@ type WritablePlatform struct {
 	NapalmDriver string `json:"napalm_driver,omitempty"`
 
 	// Legacy RPC client
+	// Enum: [juniper-junos cisco-ios opengear]
 	RPCClient string `json:"rpc_client,omitempty"`
 
 	// Slug
@@ -68,22 +69,18 @@ func (m *WritablePlatform) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateName(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateNapalmDriver(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateRPCClient(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateSlug(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -132,10 +129,13 @@ func init() {
 }
 
 const (
+
 	// WritablePlatformRPCClientJuniperJunos captures enum value "juniper-junos"
 	WritablePlatformRPCClientJuniperJunos string = "juniper-junos"
+
 	// WritablePlatformRPCClientCiscoIos captures enum value "cisco-ios"
 	WritablePlatformRPCClientCiscoIos string = "cisco-ios"
+
 	// WritablePlatformRPCClientOpengear captures enum value "opengear"
 	WritablePlatformRPCClientOpengear string = "opengear"
 )

@@ -33,6 +33,7 @@ type ImageAttachment struct {
 
 	// Created
 	// Read Only: true
+	// Format: date-time
 	Created strfmt.DateTime `json:"created,omitempty"`
 
 	// ID
@@ -42,6 +43,7 @@ type ImageAttachment struct {
 	// Image
 	// Required: true
 	// Read Only: true
+	// Format: uri
 	Image strfmt.URI `json:"image"`
 
 	// Image height
@@ -69,29 +71,42 @@ type ImageAttachment struct {
 func (m *ImageAttachment) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateCreated(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateImage(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateImageHeight(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateImageWidth(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateName(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *ImageAttachment) validateCreated(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Created) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("created", "body", "date-time", m.Created.String(), formats); err != nil {
+		return err
+	}
+
 	return nil
 }
 
