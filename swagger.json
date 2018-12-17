@@ -9714,7 +9714,7 @@
             "in": "query",
             "description": "",
             "required": false,
-            "type": "number"
+            "type": "integer"
           },
           {
             "name": "name",
