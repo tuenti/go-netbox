@@ -46,6 +46,13 @@ func (o *IPAMIPAddressesReadReader) ReadResponse(response runtime.ClientResponse
 		}
 		return result, nil
 
+	case 404:
+		result := NewIPAMIPAddressesReadNotFound()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	default:
 		return nil, runtime.NewAPIError("unknown error", response, response.Code())
 	}
@@ -71,6 +78,35 @@ func (o *IPAMIPAddressesReadOK) Error() string {
 func (o *IPAMIPAddressesReadOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.IPAddress)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewIPAMIPAddressesReadNotFound creates a IPAMIPAddressesReadNotFound with default headers values
+func NewIPAMIPAddressesReadNotFound() *IPAMIPAddressesReadNotFound {
+	return &IPAMIPAddressesReadNotFound{}
+}
+
+/*IPAMIPAddressesReadNotFound handles this case with default header values.
+
+IPAMIPAddressesReadNotFound ipam Ip addresses read not found
+*/
+type IPAMIPAddressesReadNotFound struct {
+	Payload *models.APIError
+}
+
+func (o *IPAMIPAddressesReadNotFound) Error() string {
+	return fmt.Sprintf("[GET /ipam/ip-addresses/{id}/][%d] ipamIpAddressesReadNotFound  %+v", 404, o.Payload)
+}
+
+func (o *IPAMIPAddressesReadNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.APIError)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

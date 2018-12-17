@@ -46,6 +46,13 @@ func (o *IPAMIPAddressesUpdateReader) ReadResponse(response runtime.ClientRespon
 		}
 		return result, nil
 
+	case 404:
+		result := NewIPAMIPAddressesUpdateNotFound()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	default:
 		return nil, runtime.NewAPIError("unknown error", response, response.Code())
 	}
@@ -71,6 +78,35 @@ func (o *IPAMIPAddressesUpdateOK) Error() string {
 func (o *IPAMIPAddressesUpdateOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.WritableIPAddressResponse)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewIPAMIPAddressesUpdateNotFound creates a IPAMIPAddressesUpdateNotFound with default headers values
+func NewIPAMIPAddressesUpdateNotFound() *IPAMIPAddressesUpdateNotFound {
+	return &IPAMIPAddressesUpdateNotFound{}
+}
+
+/*IPAMIPAddressesUpdateNotFound handles this case with default header values.
+
+IPAMIPAddressesUpdateNotFound ipam Ip addresses update not found
+*/
+type IPAMIPAddressesUpdateNotFound struct {
+	Payload *models.APIError
+}
+
+func (o *IPAMIPAddressesUpdateNotFound) Error() string {
+	return fmt.Sprintf("[PUT /ipam/ip-addresses/{id}/][%d] ipamIpAddressesUpdateNotFound  %+v", 404, o.Payload)
+}
+
+func (o *IPAMIPAddressesUpdateNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.APIError)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

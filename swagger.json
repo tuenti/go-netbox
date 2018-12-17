@@ -8399,6 +8399,12 @@
             "schema": {
               "$ref": "#/definitions/IPAddress"
             }
+          },
+          "404": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ApiError"
+            }
           }
         },
         "tags": [
@@ -8424,6 +8430,12 @@
             "schema": {
               "$ref": "#/definitions/WritableIPAddressResponse"
             }
+          },
+          "404": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ApiError"
+            }
           }
         },
         "tags": [
@@ -8448,6 +8460,12 @@
             "description": "",
             "schema": {
               "$ref": "#/definitions/WritableIPAddressResponse"
+            }
+          },
+          "404": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ApiError"
             }
           }
         },
@@ -12280,6 +12298,17 @@
     }
   },
   "definitions": {
+    "ApiError": {
+      "title": "ApiError",
+      "type": "object",
+      "properties": {
+        "detail": {
+          "title": "detail",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
     "NestedCircuit": {
       "title": "Circuit",
       "required": [

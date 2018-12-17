@@ -46,6 +46,13 @@ func (o *IPAMIPAddressesPartialUpdateReader) ReadResponse(response runtime.Clien
 		}
 		return result, nil
 
+	case 404:
+		result := NewIPAMIPAddressesPartialUpdateNotFound()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	default:
 		return nil, runtime.NewAPIError("unknown error", response, response.Code())
 	}
@@ -71,6 +78,35 @@ func (o *IPAMIPAddressesPartialUpdateOK) Error() string {
 func (o *IPAMIPAddressesPartialUpdateOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.WritableIPAddressResponse)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewIPAMIPAddressesPartialUpdateNotFound creates a IPAMIPAddressesPartialUpdateNotFound with default headers values
+func NewIPAMIPAddressesPartialUpdateNotFound() *IPAMIPAddressesPartialUpdateNotFound {
+	return &IPAMIPAddressesPartialUpdateNotFound{}
+}
+
+/*IPAMIPAddressesPartialUpdateNotFound handles this case with default header values.
+
+IPAMIPAddressesPartialUpdateNotFound ipam Ip addresses partial update not found
+*/
+type IPAMIPAddressesPartialUpdateNotFound struct {
+	Payload *models.APIError
+}
+
+func (o *IPAMIPAddressesPartialUpdateNotFound) Error() string {
+	return fmt.Sprintf("[PATCH /ipam/ip-addresses/{id}/][%d] ipamIpAddressesPartialUpdateNotFound  %+v", 404, o.Payload)
+}
+
+func (o *IPAMIPAddressesPartialUpdateNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.APIError)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
