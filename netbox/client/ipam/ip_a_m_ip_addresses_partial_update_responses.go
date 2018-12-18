@@ -68,7 +68,7 @@ func NewIPAMIPAddressesPartialUpdateOK() *IPAMIPAddressesPartialUpdateOK {
 IPAMIPAddressesPartialUpdateOK ipam Ip addresses partial update o k
 */
 type IPAMIPAddressesPartialUpdateOK struct {
-	Payload *models.WritableIPAddressResponse
+	Payload *models.IPAddress
 }
 
 func (o *IPAMIPAddressesPartialUpdateOK) Error() string {
@@ -77,7 +77,7 @@ func (o *IPAMIPAddressesPartialUpdateOK) Error() string {
 
 func (o *IPAMIPAddressesPartialUpdateOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.WritableIPAddressResponse)
+	o.Payload = new(models.IPAddress)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

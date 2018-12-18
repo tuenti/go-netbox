@@ -68,7 +68,7 @@ func NewIPAMVlansUpdateOK() *IPAMVlansUpdateOK {
 IPAMVlansUpdateOK ipam vlans update o k
 */
 type IPAMVlansUpdateOK struct {
-	Payload *models.WritableVLANResponse
+	Payload *models.VLAN
 }
 
 func (o *IPAMVlansUpdateOK) Error() string {
@@ -77,7 +77,7 @@ func (o *IPAMVlansUpdateOK) Error() string {
 
 func (o *IPAMVlansUpdateOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.WritableVLANResponse)
+	o.Payload = new(models.VLAN)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

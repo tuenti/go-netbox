@@ -21,10 +21,13 @@ package ipam
 
 import (
 	"fmt"
+	"io"
 
 	"github.com/go-openapi/runtime"
 
 	strfmt "github.com/go-openapi/strfmt"
+
+	models "github.com/tuenti/go-netbox/netbox/models"
 )
 
 // IPAMIPAddressesDeleteReader is a Reader for the IPAMIPAddressesDelete structure.
@@ -42,6 +45,13 @@ func (o *IPAMIPAddressesDeleteReader) ReadResponse(response runtime.ClientRespon
 			return nil, err
 		}
 		return result, nil
+
+	case 404:
+		result := NewIPAMIPAddressesDeleteNotFound()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
 
 	default:
 		return nil, runtime.NewAPIError("unknown error", response, response.Code())
@@ -65,6 +75,35 @@ func (o *IPAMIPAddressesDeleteNoContent) Error() string {
 }
 
 func (o *IPAMIPAddressesDeleteNoContent) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	return nil
+}
+
+// NewIPAMIPAddressesDeleteNotFound creates a IPAMIPAddressesDeleteNotFound with default headers values
+func NewIPAMIPAddressesDeleteNotFound() *IPAMIPAddressesDeleteNotFound {
+	return &IPAMIPAddressesDeleteNotFound{}
+}
+
+/*IPAMIPAddressesDeleteNotFound handles this case with default header values.
+
+IPAMIPAddressesDeleteNotFound ipam Ip addresses delete not found
+*/
+type IPAMIPAddressesDeleteNotFound struct {
+	Payload *models.APIError
+}
+
+func (o *IPAMIPAddressesDeleteNotFound) Error() string {
+	return fmt.Sprintf("[DELETE /ipam/ip-addresses/{id}/][%d] ipamIpAddressesDeleteNotFound  %+v", 404, o.Payload)
+}
+
+func (o *IPAMIPAddressesDeleteNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.APIError)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
 
 	return nil
 }
