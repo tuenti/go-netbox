@@ -21,10 +21,13 @@ package ipam
 
 import (
 	"fmt"
+	"io"
 
 	"github.com/go-openapi/runtime"
 
 	strfmt "github.com/go-openapi/strfmt"
+
+	models "github.com/tuenti/go-netbox/netbox/models"
 )
 
 // IPAMVlansDeleteReader is a Reader for the IPAMVlansDelete structure.
@@ -42,6 +45,13 @@ func (o *IPAMVlansDeleteReader) ReadResponse(response runtime.ClientResponse, co
 			return nil, err
 		}
 		return result, nil
+
+	case 404:
+		result := NewIPAMVlansDeleteNotFound()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
 
 	default:
 		return nil, runtime.NewAPIError("unknown error", response, response.Code())
@@ -65,6 +75,35 @@ func (o *IPAMVlansDeleteNoContent) Error() string {
 }
 
 func (o *IPAMVlansDeleteNoContent) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	return nil
+}
+
+// NewIPAMVlansDeleteNotFound creates a IPAMVlansDeleteNotFound with default headers values
+func NewIPAMVlansDeleteNotFound() *IPAMVlansDeleteNotFound {
+	return &IPAMVlansDeleteNotFound{}
+}
+
+/*IPAMVlansDeleteNotFound handles this case with default header values.
+
+IPAMVlansDeleteNotFound ipam vlans delete not found
+*/
+type IPAMVlansDeleteNotFound struct {
+	Payload *models.APIError
+}
+
+func (o *IPAMVlansDeleteNotFound) Error() string {
+	return fmt.Sprintf("[DELETE /ipam/vlans/{id}/][%d] ipamVlansDeleteNotFound  %+v", 404, o.Payload)
+}
+
+func (o *IPAMVlansDeleteNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.APIError)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
 
 	return nil
 }

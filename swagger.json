@@ -9908,6 +9908,12 @@
             "schema": {
               "$ref": "#/definitions/VLAN"
             }
+          },
+          "404": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ApiError"
+            }
           }
         },
         "tags": [
@@ -9932,6 +9938,12 @@
             "description": "",
             "schema": {
               "$ref": "#/definitions/WritableVLANResponse"
+            }
+          },
+          "404": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ApiError"
             }
           }
         },
@@ -9958,6 +9970,12 @@
             "schema": {
               "$ref": "#/definitions/WritableVLAN"
             }
+          },
+          "404": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ApiError"
+            }
           }
         },
         "tags": [
@@ -9971,6 +9989,12 @@
         "responses": {
           "204": {
             "description": ""
+          },
+          "404": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ApiError"
+            }
           }
         },
         "tags": [
