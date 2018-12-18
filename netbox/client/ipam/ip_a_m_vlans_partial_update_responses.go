@@ -46,6 +46,13 @@ func (o *IPAMVlansPartialUpdateReader) ReadResponse(response runtime.ClientRespo
 		}
 		return result, nil
 
+	case 404:
+		result := NewIPAMVlansPartialUpdateNotFound()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	default:
 		return nil, runtime.NewAPIError("unknown error", response, response.Code())
 	}
@@ -71,6 +78,35 @@ func (o *IPAMVlansPartialUpdateOK) Error() string {
 func (o *IPAMVlansPartialUpdateOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.WritableVLAN)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewIPAMVlansPartialUpdateNotFound creates a IPAMVlansPartialUpdateNotFound with default headers values
+func NewIPAMVlansPartialUpdateNotFound() *IPAMVlansPartialUpdateNotFound {
+	return &IPAMVlansPartialUpdateNotFound{}
+}
+
+/*IPAMVlansPartialUpdateNotFound handles this case with default header values.
+
+IPAMVlansPartialUpdateNotFound ipam vlans partial update not found
+*/
+type IPAMVlansPartialUpdateNotFound struct {
+	Payload *models.APIError
+}
+
+func (o *IPAMVlansPartialUpdateNotFound) Error() string {
+	return fmt.Sprintf("[PATCH /ipam/vlans/{id}/][%d] ipamVlansPartialUpdateNotFound  %+v", 404, o.Payload)
+}
+
+func (o *IPAMVlansPartialUpdateNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.APIError)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

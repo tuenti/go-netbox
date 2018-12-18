@@ -46,6 +46,13 @@ func (o *IPAMVlansReadReader) ReadResponse(response runtime.ClientResponse, cons
 		}
 		return result, nil
 
+	case 404:
+		result := NewIPAMVlansReadNotFound()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	default:
 		return nil, runtime.NewAPIError("unknown error", response, response.Code())
 	}
@@ -71,6 +78,35 @@ func (o *IPAMVlansReadOK) Error() string {
 func (o *IPAMVlansReadOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.VLAN)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewIPAMVlansReadNotFound creates a IPAMVlansReadNotFound with default headers values
+func NewIPAMVlansReadNotFound() *IPAMVlansReadNotFound {
+	return &IPAMVlansReadNotFound{}
+}
+
+/*IPAMVlansReadNotFound handles this case with default header values.
+
+IPAMVlansReadNotFound ipam vlans read not found
+*/
+type IPAMVlansReadNotFound struct {
+	Payload *models.APIError
+}
+
+func (o *IPAMVlansReadNotFound) Error() string {
+	return fmt.Sprintf("[GET /ipam/vlans/{id}/][%d] ipamVlansReadNotFound  %+v", 404, o.Payload)
+}
+
+func (o *IPAMVlansReadNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.APIError)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
